@@ -7,12 +7,16 @@ This assignment deals with optimizing memory intensive code. Image processing of
 functions that can benefit from optimization. In this lab, you’ll be improving the overall performance of an
 “image processing” application by a factor of about 25 – an extra credit phase will challenge you do increase
 the speed by a factor of  45.
+
+
 The application you’ll be modifying reads in an “image” (a picture) and a “filter”. An image is represented
 as a three-dimensional array, described in cs1300bmp.h. Each pixel is represented as a combination of
 (red, green, blue) values – when coded in the BMP picture format, the individual (R,G,B) values can taken
 on the values 0 : : : 255, but the cs1300bmp.h code is designed to handle larger pixel values. The code in
 cs1300bmp.cpp provides routines for reading and writing images in the BMP format. You are free to
 modify the format or the layout of the data structures in that code.
+
+
 The “filter” is an nn array of numbers. We’ll go through the logistics of how a “filter” works in recitation
 and in class and briefly summarize it here. Basically, you an cause a number of visual affects by applying a
 filter to an image. The filter is implemented as a “convolution”, which means that elements of the filter matrix
@@ -22,6 +26,7 @@ Figure 1: Filter Operation
 Computationally, this is structured as five nested for loops (three to go over the colors, row and columns
 and two more to apply the filter). In the solution provided to you, filters are represented using the Filter
 class, implemented in Filter.h and Filter.cpp.
+
 1
 The majority of the work performed by the filter application is in the routine shown in Figure 4.
 long long cycStart, cycStop;
@@ -64,7 +69,8 @@ Your job is going to be to improve the performance of this application using tec
 of the text. You’ll be using two images (boats.bmp and blocks-small.bmp) The first image is fairly
 small (useful for quickly testing ideas) and the second image is larger (and used for grading / evaluation).
 You can run your program using a command line similar to this:
-2
+
+
 $ filter hline.filter boats.bmp
 This invocation will leave the output image in filter-hline-boats.bmp and will report the time
 taken, as in the examples above. You can repeat the image name (or use different images) on the same
@@ -73,7 +79,11 @@ $ ./filter hline.filter boats.bmp boats.bmp
 Took 139255936.000000 cycles to process, or 2636.025138 cycles per pixel
 Took 137527184.000000 cycles to process, or 2603.300977 cycles per pixel
 Average cycles per sample is 2619.663057
-2 Performance and Correctness
+
+
+## 2 Performance and Correctness
+
+
 We’ll be using a script called Judge to score your program. The Judge program takes three optional
 argument. The -n argument specifies the number of times each filter should be executed, the -i specifies
 the image file and -p specifies the program name. The default options are shown explicitly in the following
@@ -88,8 +98,12 @@ Scores are 3694 3807 3822 3851 3872 3924 3927 3931 3962 3981 3990 3990 4003 4038
 Resulting score for is 0
 echo "Done"
 Done
+
+
 This would result in an average of 4003 cycles per second. Scoring is based on the function log2(CPE) 
 􀀀14:2 + 160 for the blocks-small.bmp image running on the https://coding.csel.io machines.
+
+
 We use those machines to provide an “even playing field” for evaluation.
 The provided Makefile compiles your program; you may need to modify it to change compiler options
 or the like. You can also compile your program ”by hand”, but you should remember what you did. We
@@ -100,7 +114,9 @@ the GCC options at http://gcc.gnu.org/onlinedocs/gcc-4.4.2/gcc/i386-and-x86_
 The Makefile includes a target make test that compares your output to the reference solution. Run
 make test frequently, because it’s easy to accidentally break the code when trying to optimize. Your
 code must be correct as well as quick.
-3
+
+
+## 3
 The Makefile also provides a make judge rule that runs the test images and filters. Lastly, it provides a
 make clean rule to delete any temporary files or images.
 Your measured time needs to include any active processing you do to the image after it is read in and
@@ -109,7 +125,9 @@ works with all the test images and filters included in the assignment. Your modi
 to handle any filters or images not included in the evaluation suite. This means you can go ahead and e.g
 change the matrix layout in the BMP image library, replace the Filter library, etc. However, you’d be well
 advised to make certain those changes are important and effective before you sink a lot of time.
-3 Extra Credit
+
+## 3 Extra Credit
+
 The most “extreme” solution is to use SIMD extensions such as MMX, SSE, SSE2 or SSE3. The cpu’s on
 the ’perf’ machines support SSE2 extensions. This lets you operate on up to 16 items in parallel at once time;
 equally important, it provides more registers for you to work with, which is huge on the x86. See http://
@@ -129,7 +147,8 @@ If you come up with a solution that uses OpenMP, you’ll get up to an additiona
 come up with a solution using SSE, you’ll get up to 10 points extra credit (assuming your changes result in
 faster code and you know why) and likewise switching to OpenCV is good for 10 points of extra credit. In
 each case, you’ll have to know what you did and why it works like always.
-4 Logistics
+
+## 4 Logistics
 You may work in a group of up to two people in solving the problems for this assignment. The only “handin”
 will be electronic. Any clarifications and revisions to the assignment will be posted on the course Web
 page.
